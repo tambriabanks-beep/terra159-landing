@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terra 159 | Tambria Banks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --soil:       #2C1A0E;
+    --bark:       #4A2E1A;
+    --clay:       #C1622F;
+    --terra:      #D4845A;
+    --wheat:      #E8C98A;
+    --sage:       #7A8C6A;
+    --meadow:     #4F6845;
+    --cream:      #F5EEE0;
+    --linen:      #FAF5EC;
+    --mist:       #EDE8DC;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--linen);
+    color: var(--soil);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TEXTURE LAYER ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+
+  /* background circle accent */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -160px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--wheat) 0%, transparent 70%);
+    opacity: 0.35;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0 1.5rem;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--soil);
+    letter-spacing: 0.02em;
+  }
+
+  .logo span {
+    color: var(--clay);
+  }
+
+  nav a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bark);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  nav a:hover { opacity: 1; }
+
+  /* ── HERO CONTENT ── */
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 0 2rem;
+    max-width: 680px;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--meadow);
+    margin-bottom: 1.25rem;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--meadow);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.08;
+    color: var(--soil);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--clay);
+  }
+
+  .hero-body {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--bark);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── FORM ── */
+  .form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 440px;
+    animation: fadeUp 1.1s ease both;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    flex: 1;
+    min-width: 160px;
+    padding: 0.9rem 1.1rem;
+    border: 1.5px solid var(--mist);
+    border-radius: 6px;
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--soil);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input::placeholder { color: #b0a898; }
+
+  input:focus { border-color: var(--clay); }
+
+  button[type="submit"] {
+    padding: 0.9rem 1.8rem;
+    background: var(--clay);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  button[type="submit"]:hover {
+    background: var(--bark);
+    transform: translateY(-1px);
+  }
+
+  button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: #9a8e80;
+  }
+
+  .success-msg {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.2rem;
+    background: #eef4ea;
+    border: 1.5px solid var(--sage);
+    border-radius: 6px;
+    color: var(--meadow);
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .error-msg {
+    display: none;
+    font-size: 0.82rem;
+    color: #b94040;
+    padding: 0.5rem 0;
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: relative;
+    z-index: 10;
+    padding-bottom: 2.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b0a898;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeUp 1.3s ease both;
+  }
+
+  .scroll-hint::after {
+    content: '↓';
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  /* ── DIVIDER ── */
+  .terrain-divider {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    background: var(--linen);
+  }
+
+  .terrain-divider svg {
+    display: block;
+    width: 100%;
+  }
+
+  /* ── ABOUT SECTION ── */
+  .about {
+    background: var(--soil);
+    color: var(--cream);
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about::before {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: var(--bark);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .about-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .about-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  .about-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 1rem;
+  }
+
+  .about h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    color: var(--cream);
+  }
+
+  .about p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #c8bfb2;
+    font-weight: 300;
+  }
+
+  .about p + p { margin-top: 1rem; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--bark);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--clay);
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--wheat);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: #9a8e80;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── WHAT'S COMING ── */
+  .coming {
+    background: var(--mist);
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+  }
+
+  .coming-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 0.75rem;
+  }
+
+  .coming h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 0.75rem;
+    color: var(--soil);
+  }
+
+  .coming-sub {
+    font-size: 1rem;
+    color: var(--bark);
+    font-weight: 300;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-top: 3px solid var(--wheat);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(44,26,14,0.1);
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--soil);
+    margin-bottom: 0.4rem;
+  }
+
+  .card p {
+    font-size: 0.875rem;
+    color: #7a6e60;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .card .tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    background: var(--mist);
+    color: var(--meadow);
+    font-weight: 500;
+  }
+
+  /* ── BOTTOM CTA ── */
+  .cta-band {
+    background: var(--clay);
+    color: white;
+    padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem);
+    text-align: center;
+  }
+
+  .cta-band h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-band p {
+    font-size: 1rem;
+    opacity: 0.85;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .cta-form-wrap {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .cta-form-wrap input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.9rem 1.1rem;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    color: var(--soil);
+  }
+
+  .cta-form-wrap button {
+    padding: 0.9rem 1.6rem;
+    background: var(--soil);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .cta-form-wrap button:hover { background: #1a0e06; }
+  .cta-form-wrap button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .cta-success {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--soil);
+    padding: 2rem clamp(1.5rem, 5vw, 4rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer .logo { color: var(--cream); }
+
+  .social-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .social-links a {
+    font-size: 0.78rem;
+    color: #9a8e80;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .social-links a:hover { color: var(--wheat); }
+
+  footer p.legal {
+    width: 100%;
+    font-size: 0.72rem;
+    color: #6a5e52;
+    margin-top: 0.5rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(6px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <nav>
+    <div class="logo">Terra <span>159</span></div>
+    <a href="https://terra159.org" target="_blank">Visit Terra 159 →</a>
+  </nav>
+
+  <div class="hero-content">
+    <div class="eyebrow">Tambria Banks · tambria.banks</div>
+    <h1>Georgia has land.<br><em>Let's get to it.</em></h1>
+    <p class="hero-body">
+      I'm Tambria — journeyman farmer, mom of two, and the builder of Terra 159, 
+      a food access simulator for all 159 counties in Georgia. 
+      I'm documenting the whole journey: the soil science, the red clay, 
+      the Extension classes, and what it really takes to close the gap 
+      between Georgia's farmland and Georgia's families.
+    </p>
+
+    <div class="form-wrap">
+      <div class="input-row">
+        <input type="text" id="hero-name" placeholder="First name" autocomplete="given-name">
+        <input type="email" id="hero-email" placeholder="Email address" autocomplete="email">
+        <button type="submit" id="hero-btn" onclick="handleSubscribe('hero')">Follow along</button>
+      </div>
+      <p class="form-note">No spam. Just real updates from the farm and the build. Unsubscribe anytime.</p>
+      <div class="success-msg" id="hero-success">
+        ✓ You're in. Welcome to the journey.
+      </div>
+      <div class="error-msg" id="hero-error"></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">More about Terra 159</div>
+</section>
+
+<!-- terrain wave -->
+<div class="terrain-divider">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#2C1A0E"/>
+  </svg>
+</div>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="about">
+  <div class="about-inner">
+    <div>
+      <p class="about-label">What is Terra 159</p>
+      <h2>Every county.<br>Every family.<br>One map.</h2>
+      <p>
+        Terra 159 is a food scarcity simulator built for all 159 counties in Georgia. 
+        Want to know what happens if a grocery store closes in your county? 
+        Which counties are food deserts — and which ones are food oases? 
+        It's all there, interactive and live.
+      </p>
+      <p>
+        This isn't a report. It's a tool. For policy people who need data 
+        and for moms who just need to find a farm stand.
+      </p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">159</div>
+        <div class="stat-label">Georgia counties mapped</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">#9</div>
+        <div class="stat-label">Georgia's national food access rank</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">79K+</div>
+        <div class="stat-label">Views in 30 days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">Live</div>
+        <div class="stat-label">Active & in feedback mode</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHAT'S COMING ══════════ -->
+<section class="coming">
+  <div class="coming-inner">
+    <p class="section-label">What's ahead</p>
+    <h2>The journey is just getting started.</h2>
+    <p class="coming-sub">
+      Subscribe to stay in the loop as things go live. 
+      Classes, resources, and community are on the way.
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🌱</div>
+        <h3>Farmer Diary</h3>
+        <p>Real updates from the Georgia Extension Journeyman Farmer program. What I learned, what surprised me, what went sideways.</p>
+        <span class="tag">Live on social</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗺️</div>
+        <h3>County Food Maps</h3>
+        <p>Find farms, coops, farm stands, and local food near you — or in the counties around you. Your county. Your food.</p>
+        <span class="tag">Terra 159 — Live</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>Beginning Farmer Classes</h3>
+        <p>Practical, accessible, no-gatekeeping. For people who want to grow food and understand land — without $40 potting mix.</p>
+        <span class="tag">Coming soon</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <h3>ATL Meets the Country</h3>
+        <p>A community event connecting Atlanta with Georgia's agricultural roots. June 13, 2026.</p>
+        <span class="tag">June 13</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BOTTOM CTA ══════════ -->
+<section class="cta-band">
+  <h2>Follow along my journey.</h2>
+  <p>I'm documenting all of it — the farming, the building, the messy middle. Get updates straight to your inbox.</p>
+  <div class="cta-form-wrap">
+    <input type="email" id="cta-email" placeholder="Your email address">
+    <button id="cta-btn" onclick="handleSubscribe('cta')">I'm in</button>
+  </div>
+  <div class="cta-success" id="cta-success">
+    ✓ You're in. Talk soon.
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="logo">Terra <span style="color:var(--terra)">159</span></div>
+  <div class="social-links">
+    <a href="https://threads.net/@tambria.banks" target="_blank">Threads</a>
+    <a href="https://facebook.com/tambria.banks" target="_blank">Facebook</a>
+    <a href="https://instagram.com/tambria.banks" target="_blank">Instagram</a>
+    <a href="https://terra159.org" target="_blank">terra159.org</a>
+  </div>
+  <p class="legal">© 2026 Tambria Banks · Terra 159 · Built by TAMB Consulting · WOSB + EDWOSB Certified</p>
+</footer>
+
+<script>
+  // ── RESEND INTEGRATION ──
+  // Replace YOUR_RESEND_API_KEY with your actual key from resend.com/api-keys
+  const RESEND_API_KEY = 'YOURre_Pm8Q9tYe_AepL2cnn69qgXEAQ2oAotKFs';
+  const FROM_EMAIL = 'hello@terra159.org';
+  const FROM_NAME = 'Tambria · Terra 159';
+
+  async function handleSubscribe(source) {
+    const isHero = source === 'hero';
+    const emailInput = document.getElementById(isHero ? 'hero-email' : 'cta-email');
+    const nameInput  = isHero ? document.getElementById('hero-name') : null;
+    const btn        = document.getElementById(isHero ? 'hero-btn' : 'cta-btn');
+    const successEl  = document.getElementById(isHero ? 'hero-success' : 'cta-success');
+    const errorEl    = isHero ? document.getElementById('hero-error') : null;
+
+    const email = emailInput.value.trim();
+    const name  = nameInput ? nameInput.value.trim() : '';
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (errorEl) { errorEl.textContent = 'Please enter a valid email.'; errorEl.style.display = 'block'; }
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    if (errorEl) errorEl.style.display = 'none';
+
+    const greeting = name ? `Hey ${name}` : 'Hey';
+
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: `${FROM_NAME} <${FROM_EMAIL}>`,
+          to: [email],
+          subject: 'You\'re in. Welcome to Terra 159.',
+          html: `
+            <div style="font-family:'Georgia',serif;max-width:560px;margin:0 auto;padding:2rem;color:#2C1A0E;background:#FAF5EC;">
+              <p style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C1622F;margin-bottom:1.5rem;">Terra 159 · tambria.banks</p>
+              <h1 style="font-size:1.8rem;line-height:1.2;margin-bottom:1rem;">${greeting} — you made it.</h1>
+              <p style="font-size:1rem;line-height:1.7;color:#4A2E1A;margin-bottom:1rem;">
+                I'm Tambria. First-generation beginning farmer, mom of two, builder of Terra 159 — 
+                a food access simulator for all 159 counties in Georgia.
+              </p>
+              <p style="font-size:1rem;line-height:1.7;color:#4A2E1A;margin-bottom:1rem;">
+                I'm documenting all of it in real time: the Journeyman Farmer program, 
+                the red clay, the Extension classes, the wins and the things that went sideways.
+              </p>
+              <p style="font-size:1rem;line-height:1.7;color:#4A2E1A;margin-bottom:2rem;">
+                You'll hear from me when something worth sharing happens. No noise. Just the real stuff.
+              </p>
+              <div style="background:#2C1A0E;padding:1.25rem 1.5rem;border-radius:8px;margin-bottom:2rem;">
+                <p style="color:#E8C98A;font-size:0.9rem;margin:0 0 0.5rem;font-weight:bold;">While you're here →</p>
+                <p style="color:#c8bfb2;font-size:0.875rem;margin:0;line-height:1.6;">
+                  Explore the Terra 159 map at <a href="https://terra159.org" style="color:#D4845A;">terra159.org</a> 
+                  and find what's in your county.
+                </p>
+              </div>
+              <p style="font-size:0.875rem;color:#7a6e60;">Follow along: 
+                <a href="https://threads.net/@tambria.banks" style="color:#C1622F;">Threads</a> · 
+                <a href="https://facebook.com/tambria.banks" style="color:#C1622F;">Facebook</a>
+              </p>
+              <p style="font-size:0.75rem;color:#b0a898;margin-top:2rem;padding-top:1rem;border-top:1px solid #EDE8DC;">
+                Terra 159 · TAMB Consulting · WOSB + EDWOSB Certified<br>
+                You're getting this because you subscribed at terra159.org
+              </p>
+            </div>
+          `
+        })
+      });
+
+      if (res.ok) {
+        emailInput.value = '';
+        if (nameInput) nameInput.value = '';
+        if (isHero) {
+          document.querySelector('.input-row').style.display = 'none';
+          successEl.style.display = 'flex';
+        } else {
+          document.querySelector('.cta-form-wrap').style.display = 'none';
+          successEl.style.display = 'block';
+        }
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Something went wrong.');
+      }
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = isHero ? 'Follow along' : "I'm in";
+      if (errorEl) {
+        errorEl.textContent = 'Something went wrong. Try again in a sec.';
+        errorEl.style.display = 'block';
+      }
+      console.error(e);
+    }
+  }
+
+  // allow Enter key on email inputs
+  document.getElementById('hero-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubscribe('hero');
+  });
+  document.getElementById('cta-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubscribe('cta');
+  });
+</script>
+</body>
+</html>
