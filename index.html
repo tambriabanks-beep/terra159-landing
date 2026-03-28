@@ -1,1 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terra 159 | Tambria Banks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --soil:       #2C1A0E;
+    --bark:       #4A2E1A;
+    --clay:       #C1622F;
+    --terra:      #D4845A;
+    --wheat:      #E8C98A;
+    --sage:       #7A8C6A;
+    --meadow:     #4F6845;
+    --cream:      #F5EEE0;
+    --linen:      #FAF5EC;
+    --mist:       #EDE8DC;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--linen);
+    color: var(--soil);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TEXTURE LAYER ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+
+  /* background circle accent */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -160px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--wheat) 0%, transparent 70%);
+    opacity: 0.35;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0 1.5rem;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--soil);
+    letter-spacing: 0.02em;
+  }
+
+  .logo span {
+    color: var(--clay);
+  }
+
+  nav a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bark);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  nav a:hover { opacity: 1; }
+
+  /* ── HERO CONTENT ── */
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 0 2rem;
+    max-width: 680px;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--meadow);
+    margin-bottom: 1.25rem;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--meadow);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.08;
+    color: var(--soil);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--clay);
+  }
+
+  .hero-body {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--bark);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── FORM ── */
+  .form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 440px;
+    animation: fadeUp 1.1s ease both;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    flex: 1;
+    min-width: 160px;
+    padding: 0.9rem 1.1rem;
+    border: 1.5px solid var(--mist);
+    border-radius: 6px;
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--soil);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input::placeholder { color: #b0a898; }
+
+  input:focus { border-color: var(--clay); }
+
+  button[type="submit"] {
+    padding: 0.9rem 1.8rem;
+    background: var(--clay);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  button[type="submit"]:hover {
+    background: var(--bark);
+    transform: translateY(-1px);
+  }
+
+  button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: #9a8e80;
+  }
+
+  .success-msg {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.2rem;
+    background: #eef4ea;
+    border: 1.5px solid var(--sage);
+    border-radius: 6px;
+    color: var(--meadow);
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .error-msg {
+    display: none;
+    font-size: 0.82rem;
+    color: #b94040;
+    padding: 0.5rem 0;
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: relative;
+    z-index: 10;
+    padding-bottom: 2.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b0a898;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeUp 1.3s ease both;
+  }
+
+  .scroll-hint::after {
+    content: '↓';
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  /* ── DIVIDER ── */
+  .terrain-divider {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    background: var(--linen);
+  }
+
+  .terrain-divider svg {
+    display: block;
+    width: 100%;
+  }
+
+  /* ── ABOUT SECTION ── */
+  .about {
+    background: var(--soil);
+    color: var(--cream);
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about::before {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: var(--bark);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .about-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .about-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  .about-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 1rem;
+  }
+
+  .about h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    color: var(--cream);
+  }
+
+  .about p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #c8bfb2;
+    font-weight: 300;
+  }
+
+  .about p + p { margin-top: 1rem; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--bark);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--clay);
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--wheat);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: #9a8e80;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── WHAT'S COMING ── */
+  .coming {
+    background: var(--mist);
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+  }
+
+  .coming-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 0.75rem;
+  }
+
+  .coming h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 0.75rem;
+    color: var(--soil);
+  }
+
+  .coming-sub {
+    font-size: 1rem;
+    color: var(--bark);
+    font-weight: 300;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-top: 3px solid var(--wheat);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(44,26,14,0.1);
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--soil);
+    margin-bottom: 0.4rem;
+  }
+
+  .card p {
+    font-size: 0.875rem;
+    color: #7a6e60;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .card .tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    background: var(--mist);
+    color: var(--meadow);
+    font-weight: 500;
+  }
+
+  /* ── BOTTOM CTA ── */
+  .cta-band {
+    background: var(--clay);
+    color: white;
+    padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem);
+    text-align: center;
+  }
+
+  .cta-band h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-band p {
+    font-size: 1rem;
+    opacity: 0.85;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .cta-form-wrap {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .cta-form-wrap input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.9rem 1.1rem;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    color: var(--soil);
+  }
+
+  .cta-form-wrap button {
+    padding: 0.9rem 1.6rem;
+    background: var(--soil);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .cta-form-wrap button:hover { background: #1a0e06; }
+  .cta-form-wrap button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .cta-success {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--soil);
+    padding: 2rem clamp(1.5rem, 5vw, 4rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer .logo { color: var(--cream); }
+
+  .social-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .social-links a {
+    font-size: 0.78rem;
+    color: #9a8e80;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .social-links a:hover { color: var(--wheat); }
+
+  footer p.legal {
+    width: 100%;
+    font-size: 0.72rem;
+    color: #6a5e52;
+    margin-top: 0.5rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(6px); }
+  }
+
+  /* ── FARMER FORM SECTION ── */
+  .farmer-section {
+    background: var(--linen);
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--mist);
+  }
+
+  .farmer-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .farmer-intro {
+    margin-bottom: 2.5rem;
+  }
+
+  .farmer-intro .section-label { color: var(--meadow); }
+
+  .farmer-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--soil);
+    margin-bottom: 0.75rem;
+  }
+
+  .farmer-intro p {
+    font-size: 1rem;
+    color: var(--bark);
+    font-weight: 300;
+    line-height: 1.75;
+    max-width: 560px;
+  }
+
+  /* progress bar */
+  .progress-bar {
+    display: flex;
+    gap: 0.35rem;
+    margin-bottom: 2rem;
+  }
+
+  .progress-step {
+    height: 4px;
+    flex: 1;
+    border-radius: 4px;
+    background: var(--mist);
+    transition: background 0.3s;
+  }
+
+  .progress-step.active { background: var(--clay); }
+  .progress-step.done   { background: var(--meadow); }
+
+  .step-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+  }
+
+  /* form panels */
+  .form-panel { display: none; }
+  .form-panel.active { display: block; }
+
+  /* field groups */
+  .field-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--soil);
+    margin-bottom: 0.4rem;
+  }
+
+  .field-group label .req {
+    color: var(--clay);
+    margin-left: 2px;
+  }
+
+  .field-group label .opt {
+    font-size: 0.75rem;
+    color: #9a8e80;
+    font-weight: 300;
+    margin-left: 4px;
+  }
+
+  .field-group input[type="text"],
+  .field-group input[type="email"],
+  .field-group input[type="tel"],
+  .field-group select,
+  .field-group textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--mist);
+    border-radius: 6px;
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--soil);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    border-color: var(--clay);
+  }
+
+  .field-group textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 540px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  /* checkboxes & radios */
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--mist);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    font-size: 0.875rem;
+    color: var(--bark);
+    background: white;
+  }
+
+  .check-item:hover { border-color: var(--terra); }
+
+  .check-item input[type="checkbox"],
+  .check-item input[type="radio"] {
+    margin-top: 2px;
+    accent-color: var(--clay);
+    flex-shrink: 0;
+  }
+
+  .check-item.checked {
+    border-color: var(--clay);
+    background: #fdf3ec;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+
+  .radio-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: 1.5px solid var(--mist);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--bark);
+    background: white;
+    transition: all 0.2s;
+  }
+
+  .radio-pill:hover { border-color: var(--terra); }
+  .radio-pill input { accent-color: var(--clay); }
+  .radio-pill.selected { border-color: var(--clay); background: #fdf3ec; color: var(--soil); }
+
+  /* nav buttons */
+  .form-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--mist);
+  }
+
+  .btn-back {
+    padding: 0.75rem 1.4rem;
+    border: 1.5px solid var(--mist);
+    border-radius: 6px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--bark);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .btn-back:hover { border-color: var(--bark); }
+
+  .btn-next {
+    padding: 0.85rem 1.8rem;
+    background: var(--clay);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-left: auto;
+  }
+
+  .btn-next:hover { background: var(--bark); }
+  .btn-next:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .farmer-field-error {
+    font-size: 0.78rem;
+    color: #b94040;
+    margin-top: 0.35rem;
+    display: none;
+  }
+
+  /* consent checkboxes */
+  .consent-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1.5px solid var(--mist);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    background: white;
+    font-size: 0.9rem;
+    color: var(--bark);
+    line-height: 1.5;
+  }
+
+  .consent-item input { accent-color: var(--clay); margin-top: 3px; flex-shrink: 0; }
+
+  /* success state */
+  .farmer-success {
+    display: none;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 12px;
+    border: 1.5px solid var(--mist);
+  }
+
+  .farmer-success .success-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .farmer-success h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    color: var(--soil);
+    margin-bottom: 0.75rem;
+  }
+
+  .farmer-success p {
+    font-size: 0.95rem;
+    color: var(--bark);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .section-note {
+    font-size: 0.8rem;
+    color: #9a8e80;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <nav>
+    <div class="logo">Terra <span>159</span></div>
+    <a href="https://terra159.org" target="_blank">Visit Terra 159 →</a>
+  </nav>
+
+  <div class="hero-content">
+    <div class="eyebrow">Tambria Banks · tambria.banks</div>
+    <h1>Georgia has land.<br><em>Let's get to it.</em></h1>
+    <p class="hero-body">
+      I'm Tambria — journeyman farmer, mom of two, and the builder of Terra 159, 
+      a food access simulator for all 159 counties in Georgia. 
+      I'm documenting the whole journey: the soil science, the red clay, 
+      the Extension classes, and what it really takes to close the gap 
+      between Georgia's farmland and Georgia's families.
+    </p>
+
+    <div class="form-wrap">
+      <div class="input-row">
+        <input type="text" id="hero-name" placeholder="First name" autocomplete="given-name">
+        <input type="email" id="hero-email" placeholder="Email address" autocomplete="email">
+        <button type="submit" id="hero-btn" onclick="handleSubscribe('hero')">Follow along</button>
+      </div>
+      <p class="form-note">No spam. Just real updates from the farm and the build. Unsubscribe anytime.</p>
+      <div class="success-msg" id="hero-success">
+        ✓ You're in. Welcome to the journey.
+      </div>
+      <div class="error-msg" id="hero-error"></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">More about Terra 159</div>
+</section>
+
+<!-- terrain wave -->
+<div class="terrain-divider">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#2C1A0E"/>
+  </svg>
+</div>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="about">
+  <div class="about-inner">
+    <div>
+      <p class="about-label">What is Terra 159</p>
+      <h2>Every county.<br>Every family.<br>One map.</h2>
+      <p>
+        Terra 159 is a food scarcity simulator built for all 159 counties in Georgia. 
+        Want to know what happens if a grocery store closes in your county? 
+        Which counties are food deserts — and which ones are food oases? 
+        It's all there, interactive and live.
+      </p>
+      <p>
+        This isn't a report. It's a tool. For policy people who need data 
+        and for moms who just need to find a farm stand.
+      </p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">159</div>
+        <div class="stat-label">Georgia counties mapped</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">#9</div>
+        <div class="stat-label">Georgia's national food access rank</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">79K+</div>
+        <div class="stat-label">Views in 30 days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">Live</div>
+        <div class="stat-label">Active & in feedback mode</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHAT'S COMING ══════════ -->
+<section class="coming">
+  <div class="coming-inner">
+    <p class="section-label">What's ahead</p>
+    <h2>The journey is just getting started.</h2>
+    <p class="coming-sub">
+      Subscribe to stay in the loop as things go live. 
+      Classes, resources, and community are on the way.
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🌱</div>
+        <h3>Farmer Diary</h3>
+        <p>Real updates from the Georgia Extension Journeyman Farmer program. What I learned, what surprised me, what went sideways.</p>
+        <span class="tag">Live on social</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗺️</div>
+        <h3>County Food Maps</h3>
+        <p>Find farms, coops, farm stands, and local food near you — or in the counties around you. Your county. Your food.</p>
+        <span class="tag">Terra 159 — Live</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>Beginning Farmer Classes</h3>
+        <p>Practical, accessible, no-gatekeeping. For people who want to grow food and understand land — without $40 potting mix.</p>
+        <span class="tag">Coming soon</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <h3>ATL Meets the Country</h3>
+        <p>A community event connecting Atlanta with Georgia's agricultural roots. June 13, 2026.</p>
+        <span class="tag">June 13</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FARMER DIRECTORY FORM ══════════ -->
+<section class="farmer-section" id="farmer-form">
+  <div class="farmer-inner">
+
+    <div class="farmer-intro">
+      <p class="section-label">🌾 Farm Directory</p>
+      <h2>Put your farm on the map.</h2>
+      <p>
+        Terra 159 is mapping farms across all 159 Georgia counties. 
+        Submit your farm to be listed in the directory — connecting your community 
+        to local food, land, and growers near them.
+      </p>
+    </div>
+
+    <!-- progress -->
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-step active" id="step-bar-1"></div>
+      <div class="progress-step" id="step-bar-2"></div>
+      <div class="progress-step" id="step-bar-3"></div>
+      <div class="progress-step" id="step-bar-4"></div>
+      <div class="progress-step" id="step-bar-5"></div>
+    </div>
+
+    <!-- ── SECTION 1: Farm Basics ── -->
+    <div class="form-panel active" id="panel-1">
+      <p class="step-label">Section 1 of 5 — Farm Basics</p>
+
+      <div class="field-group">
+        <label>Email <span class="req">*</span></label>
+        <input type="email" id="f-email" placeholder="your@email.com">
+        <div class="farmer-field-error" id="err-email">Please enter a valid email.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Farm Name <span class="req">*</span></label>
+        <input type="text" id="f-farm-name" placeholder="e.g., Banks Family Farm">
+        <div class="farmer-field-error" id="err-farm-name">Farm name is required.</div>
+      </div>
+
+      <div class="field-group">
+        <label>County <span class="req">*</span></label>
+        <select id="f-county">
+          <option value="">Choose your county</option>
+          <option>Appling</option><option>Atkinson</option><option>Bacon</option><option>Baker</option><option>Baldwin</option><option>Banks</option><option>Barrow</option><option>Bartow</option><option>Ben Hill</option><option>Berrien</option><option>Bibb</option><option>Bleckley</option><option>Brantley</option><option>Brooks</option><option>Bryan</option><option>Bulloch</option><option>Burke</option><option>Butts</option><option>Calhoun</option><option>Camden</option><option>Candler</option><option>Carroll</option><option>Catoosa</option><option>Charlton</option><option>Chatham</option><option>Chattahoochee</option><option>Chattooga</option><option>Cherokee</option><option>Clarke</option><option>Clay</option><option>Clayton</option><option>Clinch</option><option>Cobb</option><option>Coffee</option><option>Colquitt</option><option>Columbia</option><option>Cook</option><option>Coweta</option><option>Crawford</option><option>Crisp</option><option>Dade</option><option>Dawson</option><option>Decatur</option><option>DeKalb</option><option>Dodge</option><option>Dooly</option><option>Dougherty</option><option>Douglas</option><option>Early</option><option>Echols</option><option>Effingham</option><option>Elbert</option><option>Emanuel</option><option>Evans</option><option>Fannin</option><option>Fayette</option><option>Floyd</option><option>Forsyth</option><option>Franklin</option><option>Fulton</option><option>Gilmer</option><option>Glascock</option><option>Glynn</option><option>Gordon</option><option>Grady</option><option>Greene</option><option>Gwinnett</option><option>Habersham</option><option>Hall</option><option>Hancock</option><option>Haralson</option><option>Harris</option><option>Hart</option><option>Heard</option><option>Henry</option><option>Houston</option><option>Irwin</option><option>Jackson</option><option>Jasper</option><option>Jeff Davis</option><option>Jefferson</option><option>Jenkins</option><option>Johnson</option><option>Jones</option><option>Lamar</option><option>Lanier</option><option>Laurens</option><option>Lee</option><option>Liberty</option><option>Lincoln</option><option>Long</option><option>Lowndes</option><option>Lumpkin</option><option>McDuffie</option><option>McIntosh</option><option>Macon</option><option>Madison</option><option>Marion</option><option>Meriwether</option><option>Miller</option><option>Mitchell</option><option>Monroe</option><option>Montgomery</option><option>Morgan</option><option>Murray</option><option>Muscogee</option><option>Newton</option><option>Oconee</option><option>Oglethorpe</option><option>Paulding</option><option>Peach</option><option>Pickens</option><option>Pierce</option><option>Pike</option><option>Polk</option><option>Pulaski</option><option>Putnam</option><option>Quitman</option><option>Rabun</option><option>Randolph</option><option>Richmond</option><option>Rockdale</option><option>Schley</option><option>Screven</option><option>Seminole</option><option>Spalding</option><option>Stephens</option><option>Stewart</option><option>Sumter</option><option>Talbot</option><option>Taliaferro</option><option>Tattnall</option><option>Taylor</option><option>Telfair</option><option>Terrell</option><option>Thomas</option><option>Tift</option><option>Toombs</option><option>Towns</option><option>Treutlen</option><option>Troup</option><option>Turner</option><option>Twiggs</option><option>Union</option><option>Upson</option><option>Walker</option><option>Walton</option><option>Ware</option><option>Warren</option><option>Washington</option><option>Wayne</option><option>Webster</option><option>Wheeler</option><option>White</option><option>Whitfield</option><option>Wilcox</option><option>Wilkes</option><option>Wilkinson</option><option>Worth</option>
+        </select>
+        <div class="farmer-field-error" id="err-county">Please select your county.</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label>City / Community <span class="req">*</span></label>
+          <input type="text" id="f-city" placeholder="e.g., Douglasville">
+          <div class="farmer-field-error" id="err-city">City is required.</div>
+        </div>
+        <div class="field-group">
+          <label>Zip Code <span class="req">*</span></label>
+          <input type="text" id="f-zip" placeholder="e.g., 30134" maxlength="10">
+          <div class="farmer-field-error" id="err-zip">Zip code is required.</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Farm Website or Social Media <span class="opt">(optional)</span></label>
+        <input type="text" id="f-social" placeholder="Instagram handle, Facebook page, or website">
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label>Contact Email <span class="req">*</span></label>
+          <input type="email" id="f-contact-email" placeholder="Not published — Terra 159 use only">
+          <div class="farmer-field-error" id="err-contact-email">Contact email is required.</div>
+        </div>
+        <div class="field-group">
+          <label>Contact Phone <span class="opt">(optional)</span></label>
+          <input type="tel" id="f-phone" placeholder="Not published — Terra 159 use only">
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-next" onclick="nextPanel(1)">Next: What you grow →</button>
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: What You Grow ── -->
+    <div class="form-panel" id="panel-2">
+      <p class="step-label">Section 2 of 5 — What You Grow & Offer</p>
+
+      <div class="field-group">
+        <label>What does your farm produce or offer? <span class="req">*</span></label>
+        <div class="check-grid" id="produce-grid">
+          <label class="check-item"><input type="checkbox" value="Vegetables"> Vegetables</label>
+          <label class="check-item"><input type="checkbox" value="Fruit"> Fruit</label>
+          <label class="check-item"><input type="checkbox" value="Herbs"> Herbs</label>
+          <label class="check-item"><input type="checkbox" value="Eggs"> Eggs</label>
+          <label class="check-item"><input type="checkbox" value="Meat / Poultry"> Meat / Poultry</label>
+          <label class="check-item"><input type="checkbox" value="Honey"> Honey</label>
+          <label class="check-item"><input type="checkbox" value="Cut Flowers"> Cut Flowers</label>
+          <label class="check-item"><input type="checkbox" value="Seedlings / Plants"> Seedlings / Plants</label>
+          <label class="check-item"><input type="checkbox" value="Value-Added Products"> Value-Added Products</label>
+          <label class="check-item"><input type="checkbox" value="Agritourism / Events"> Agritourism / Events</label>
+          <label class="check-item"><input type="checkbox" value="Educational Programming"> Educational Programming</label>
+          <label class="check-item"><input type="checkbox" value="Other"> Other</label>
+        </div>
+        <div class="farmer-field-error" id="err-produce">Please select at least one.</div>
+      </div>
+
+      <div class="field-group">
+        <label>How can people buy from you? <span class="req">*</span></label>
+        <div class="check-grid" id="buy-grid">
+          <label class="check-item"><input type="checkbox" value="Farm stand"> Farm stand</label>
+          <label class="check-item"><input type="checkbox" value="Farmers market"> Farmers market</label>
+          <label class="check-item"><input type="checkbox" value="CSA / Subscription box"> CSA / Subscription box</label>
+          <label class="check-item"><input type="checkbox" value="Online ordering"> Online ordering</label>
+          <label class="check-item"><input type="checkbox" value="Wholesale only"> Wholesale only</label>
+          <label class="check-item"><input type="checkbox" value="By appointment"> By appointment</label>
+        </div>
+        <div class="farmer-field-error" id="err-buy">Please select at least one.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Are you currently accepting new customers? <span class="req">*</span></label>
+        <div class="radio-group" id="customers-group">
+          <label class="radio-pill"><input type="radio" name="customers" value="Yes"> Yes</label>
+          <label class="radio-pill"><input type="radio" name="customers" value="Seasonally"> Seasonally</label>
+          <label class="radio-pill"><input type="radio" name="customers" value="No"> No</label>
+          <label class="radio-pill"><input type="radio" name="customers" value="Not sure yet"> Not sure yet</label>
+        </div>
+        <div class="farmer-field-error" id="err-customers">Please select one.</div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevPanel(2)">← Back</button>
+        <button class="btn-next" onclick="nextPanel(2)">Next: Certifications →</button>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: Designations ── -->
+    <div class="form-panel" id="panel-3">
+      <p class="step-label">Section 3 of 5 — Farm Designations</p>
+      <p class="section-note" style="margin-bottom:1.5rem;">All fields in this section are optional and self-identified.</p>
+
+      <div class="field-group">
+        <label>Certifications or practices <span class="opt">(optional)</span></label>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" value="USDA Certified Organic"> USDA Certified Organic</label>
+          <label class="check-item"><input type="checkbox" value="Naturally grown"> Naturally grown</label>
+          <label class="check-item"><input type="checkbox" value="Certified Naturally Grown"> Certified Naturally Grown</label>
+          <label class="check-item"><input type="checkbox" value="GAP Certified"> GAP Certified</label>
+          <label class="check-item"><input type="checkbox" value="Animal Welfare Certified"> Animal Welfare Certified</label>
+          <label class="check-item"><input type="checkbox" value="Non-GMO"> Non-GMO</label>
+          <label class="check-item"><input type="checkbox" value="Biodynamic"> Biodynamic</label>
+          <label class="check-item"><input type="checkbox" value="Regenerative / No-till"> Regenerative / No-till</label>
+          <label class="check-item"><input type="checkbox" value="Beginning Farmer"> Beginning Farmer (5 yrs or less)</label>
+          <label class="check-item"><input type="checkbox" value="USDA Socially Disadvantaged"> USDA Socially Disadvantaged</label>
+          <label class="check-item"><input type="checkbox" value="Heirs Property"> Heirs' Property / Family Land</label>
+          <label class="check-item"><input type="checkbox" value="No certifications"> No certifications</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Would you like to be listed as a minority-owned farm? <span class="opt">(optional)</span></label>
+        <div class="radio-group" id="minority-group">
+          <label class="radio-pill"><input type="radio" name="minority" value="Yes"> Yes</label>
+          <label class="radio-pill"><input type="radio" name="minority" value="No"> No</label>
+          <label class="radio-pill"><input type="radio" name="minority" value="Prefer not to say"> Prefer not to say</label>
+        </div>
+      </div>
+
+      <div class="field-group" id="minority-identity-group">
+        <label>If yes, which designation(s) best describe your farm? <span class="opt">(optional)</span></label>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" value="Black-Owned"> Black-Owned</label>
+          <label class="check-item"><input type="checkbox" value="Indigenous / Native-Owned"> Indigenous / Native-Owned</label>
+          <label class="check-item"><input type="checkbox" value="Latino / Hispanic-Owned"> Latino / Hispanic-Owned</label>
+          <label class="check-item"><input type="checkbox" value="Asian-Owned"> Asian-Owned</label>
+          <label class="check-item"><input type="checkbox" value="Women-Owned"> Women-Owned</label>
+          <label class="check-item"><input type="checkbox" value="LGBTQ+-Owned"> LGBTQ+-Owned</label>
+          <label class="check-item"><input type="checkbox" value="Veteran-Owned"> Veteran-Owned</label>
+          <label class="check-item"><input type="checkbox" value="Prefer to self-describe"> Prefer to self-describe</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Self-describe your farm's identity <span class="opt">(optional)</span></label>
+        <input type="text" id="f-self-describe" placeholder="e.g., Afro-Caribbean-owned, Hmong-owned, etc.">
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevPanel(3)">← Back</button>
+        <button class="btn-next" onclick="nextPanel(3)">Next: Your story →</button>
+      </div>
+    </div>
+
+    <!-- ── SECTION 4: Story & Visibility ── -->
+    <div class="form-panel" id="panel-4">
+      <p class="step-label">Section 4 of 5 — Your Story & Visibility</p>
+
+      <div class="field-group">
+        <label>Tell us about your farm <span class="opt">(optional)</span></label>
+        <textarea id="f-story" placeholder="2–3 sentences. Share what makes your farm special. This may appear on your Terra 159 listing."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>How long have you been farming? <span class="opt">(optional)</span></label>
+        <div class="radio-group" id="farming-length-group">
+          <label class="radio-pill"><input type="radio" name="farming-length" value="Less than 1 year"> Less than 1 year</label>
+          <label class="radio-pill"><input type="radio" name="farming-length" value="1–5 years"> 1–5 years</label>
+          <label class="radio-pill"><input type="radio" name="farming-length" value="6–10 years"> 6–10 years</label>
+          <label class="radio-pill"><input type="radio" name="farming-length" value="10+ years"> 10+ years</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Would you like to be featured in a Terra 159 story or interview? <span class="opt">(optional)</span></label>
+        <div class="radio-group" id="feature-group">
+          <label class="radio-pill"><input type="radio" name="feature" value="Yes, reach out to me"> Yes, reach out to me</label>
+          <label class="radio-pill"><input type="radio" name="feature" value="Maybe later"> Maybe later</label>
+          <label class="radio-pill"><input type="radio" name="feature" value="No thanks"> No thanks</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>How did you hear about Terra 159? <span class="opt">(optional)</span></label>
+        <div class="radio-group" id="referral-group">
+          <label class="radio-pill"><input type="radio" name="referral" value="Threads"> Threads</label>
+          <label class="radio-pill"><input type="radio" name="referral" value="Instagram"> Instagram</label>
+          <label class="radio-pill"><input type="radio" name="referral" value="Facebook"> Facebook</label>
+          <label class="radio-pill"><input type="radio" name="referral" value="Word of mouth"> Word of mouth</label>
+          <label class="radio-pill"><input type="radio" name="referral" value="Community event"> Community event</label>
+          <label class="radio-pill"><input type="radio" name="referral" value="Other"> Other</label>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevPanel(4)">← Back</button>
+        <button class="btn-next" onclick="nextPanel(4)">Next: Consent →</button>
+      </div>
+    </div>
+
+    <!-- ── SECTION 5: Consent ── -->
+    <div class="form-panel" id="panel-5">
+      <p class="step-label">Section 5 of 5 — Consent</p>
+      <p style="font-size:0.9rem;color:var(--bark);font-weight:300;line-height:1.7;margin-bottom:1.5rem;">
+        Your privacy matters. Your contact info will never be published. 
+        To request removal from the directory at any time, email 
+        <a href="/cdn-cgi/l/email-protection#a6cec3cacac9e6d2c3d4d4c797939f88c9d4c1" style="color:var(--clay);"><span class="__cf_email__" data-cfemail="f49c9198989bb48091868695c5c1cdda9b8693">[email&#160;protected]</span></a>
+      </p>
+
+      <label class="consent-item" id="consent-1-label">
+        <input type="checkbox" id="consent-1">
+        <span>I give Terra 159 permission to list my farm in the public directory. <strong>*</strong></span>
+      </label>
+      <div class="farmer-field-error" id="err-consent-1">This field is required.</div>
+
+      <label class="consent-item" id="consent-2-label">
+        <input type="checkbox" id="consent-2">
+        <span>I understand my contact info will NOT be published. <strong>*</strong></span>
+      </label>
+      <div class="farmer-field-error" id="err-consent-2">This field is required.</div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevPanel(5)">← Back</button>
+        <button class="btn-next" id="submit-farmer-btn" onclick="submitFarmerForm()">Submit my farm →</button>
+      </div>
+    </div>
+
+    <!-- ── SUCCESS ── -->
+    <div class="farmer-success" id="farmer-success">
+      <div class="success-icon">🌾</div>
+      <h3>Your farm is submitted.</h3>
+      <p>Thank you for putting your farm on the map. We'll review your submission and reach out if we have questions. Welcome to the Terra 159 directory.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ BOTTOM CTA ══════════ -->
+<section class="cta-band">
+  <h2>Follow along my journey.</h2>
+  <p>I'm documenting all of it — the farming, the building, the messy middle. Get updates straight to your inbox.</p>
+  <div class="cta-form-wrap">
+    <input type="email" id="cta-email" placeholder="Your email address">
+    <button id="cta-btn" onclick="handleSubscribe('cta')">I'm in</button>
+  </div>
+  <div class="cta-success" id="cta-success">
+    ✓ You're in. Talk soon.
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="logo">Terra <span style="color:var(--terra)">159</span></div>
+  <div class="social-links">
+    <a href="https://threads.net/@tambria.banks" target="_blank">Threads</a>
+    <a href="https://facebook.com/tambria.banks" target="_blank">Facebook</a>
+    <a href="https://instagram.com/tambria.banks" target="_blank">Instagram</a>
+    <a href="https://terra159.org" target="_blank">terra159.org</a>
+  </div>
+  <p class="legal">© 2026 Tambria Banks · Terra 159 · Built by TAMB Consulting · WOSB + EDWOSB Certified</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  async function handleSubscribe(source) {
+    const isHero = source === 'hero';
+    const emailInput = document.getElementById(isHero ? 'hero-email' : 'cta-email');
+    const nameInput  = isHero ? document.getElementById('hero-name') : null;
+    const btn        = document.getElementById(isHero ? 'hero-btn' : 'cta-btn');
+    const successEl  = document.getElementById(isHero ? 'hero-success' : 'cta-success');
+    const errorEl    = isHero ? document.getElementById('hero-error') : null;
+
+    const email = emailInput.value.trim();
+    const name  = nameInput ? nameInput.value.trim() : '';
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (errorEl) { errorEl.textContent = 'Please enter a valid email.'; errorEl.style.display = 'block'; }
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    if (errorEl) errorEl.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+      });
+
+      if (res.ok) {
+        emailInput.value = '';
+        if (nameInput) nameInput.value = '';
+        if (isHero) {
+          document.querySelector('.input-row').style.display = 'none';
+          successEl.style.display = 'flex';
+        } else {
+          document.querySelector('.cta-form-wrap').style.display = 'none';
+          successEl.style.display = 'block';
+        }
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Something went wrong.');
+      }
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = isHero ? 'Follow along' : "I'm in";
+      if (errorEl) {
+        errorEl.textContent = 'Something went wrong. Try again in a sec.';
+        errorEl.style.display = 'block';
+      }
+      console.error(e);
+    }
+  }
+
+  // allow Enter key on email inputs
+  document.getElementById('hero-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubscribe('hero');
+  });
+  document.getElementById('cta-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubscribe('cta');
+  });
+
+  // ── FARMER FORM LOGIC ──
+  let currentPanel = 1;
+  const TOTAL_PANELS = 5;
+
+  // checkbox visual toggle
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      cb.closest('.check-item').classList.toggle('checked', cb.checked);
+    });
+  });
+
+  // radio pill visual toggle
+  document.querySelectorAll('.radio-pill input[type="radio"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const name = r.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(other => {
+        other.closest('.radio-pill').classList.remove('selected');
+      });
+      r.closest('.radio-pill').classList.add('selected');
+    });
+  });
+
+  function updateProgress(panel) {
+    for (let i = 1; i <= TOTAL_PANELS; i++) {
+      const bar = document.getElementById(`step-bar-${i}`);
+      if (i < panel)       bar.className = 'progress-step done';
+      else if (i === panel) bar.className = 'progress-step active';
+      else                  bar.className = 'progress-step';
+    }
+  }
+
+  function showPanel(n) {
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`panel-${n}`).classList.add('active');
+    currentPanel = n;
+    updateProgress(n);
+    document.getElementById('farmer-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function getChecked(gridId) {
+    return [...document.querySelectorAll(`#${gridId} input:checked`)].map(c => c.value);
+  }
+
+  function getRadio(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '';
+  }
+
+  function showErr(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = show ? 'block' : 'none';
+  }
+
+  function nextPanel(from) {
+    // validate per panel
+    if (from === 1) {
+      const email = document.getElementById('f-email').value.trim();
+      const farmName = document.getElementById('f-farm-name').value.trim();
+      const county = document.getElementById('f-county').value;
+      const city = document.getElementById('f-city').value.trim();
+      const zip = document.getElementById('f-zip').value.trim();
+      const contactEmail = document.getElementById('f-contact-email').value.trim();
+      let valid = true;
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('err-email', true); valid = false; } else showErr('err-email', false);
+      if (!farmName) { showErr('err-farm-name', true); valid = false; } else showErr('err-farm-name', false);
+      if (!county) { showErr('err-county', true); valid = false; } else showErr('err-county', false);
+      if (!city) { showErr('err-city', true); valid = false; } else showErr('err-city', false);
+      if (!zip) { showErr('err-zip', true); valid = false; } else showErr('err-zip', false);
+      if (!contactEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) { showErr('err-contact-email', true); valid = false; } else showErr('err-contact-email', false);
+      if (!valid) return;
+    }
+
+    if (from === 2) {
+      const produce = getChecked('produce-grid');
+      const buy = getChecked('buy-grid');
+      const customers = getRadio('customers');
+      let valid = true;
+      if (!produce.length) { showErr('err-produce', true); valid = false; } else showErr('err-produce', false);
+      if (!buy.length) { showErr('err-buy', true); valid = false; } else showErr('err-buy', false);
+      if (!customers) { showErr('err-customers', true); valid = false; } else showErr('err-customers', false);
+      if (!valid) return;
+    }
+
+    showPanel(from + 1);
+  }
+
+  function prevPanel(from) { showPanel(from - 1); }
+
+  async function submitFarmerForm() {
+    const c1 = document.getElementById('consent-1').checked;
+    const c2 = document.getElementById('consent-2').checked;
+    let valid = true;
+    if (!c1) { showErr('err-consent-1', true); valid = false; } else showErr('err-consent-1', false);
+    if (!c2) { showErr('err-consent-2', true); valid = false; } else showErr('err-consent-2', false);
+    if (!valid) return;
+
+    const btn = document.getElementById('submit-farmer-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    // collect all data
+    const data = {
+      email:          document.getElementById('f-email').value.trim(),
+      farmName:       document.getElementById('f-farm-name').value.trim(),
+      county:         document.getElementById('f-county').value,
+      city:           document.getElementById('f-city').value.trim(),
+      zip:            document.getElementById('f-zip').value.trim(),
+      social:         document.getElementById('f-social').value.trim(),
+      contactEmail:   document.getElementById('f-contact-email').value.trim(),
+      phone:          document.getElementById('f-phone').value.trim(),
+      produce:        getChecked('produce-grid').join(', '),
+      buyMethods:     getChecked('buy-grid').join(', '),
+      customers:      getRadio('customers'),
+      certifications: [...document.querySelectorAll('#panel-3 .check-grid:first-of-type input:checked')].map(c=>c.value).join(', '),
+      minority:       getRadio('minority'),
+      minorityId:     [...document.querySelectorAll('#minority-identity-group input:checked')].map(c=>c.value).join(', '),
+      selfDescribe:   document.getElementById('f-self-describe').value.trim(),
+      story:          document.getElementById('f-story').value.trim(),
+      farmingLength:  getRadio('farming-length'),
+      feature:        getRadio('feature'),
+      referral:       getRadio('referral'),
+    };
+
+    // send notification email to Tambria via serverless function
+    try {
+      await fetch('/api/farmer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(e) { console.error('Notification email failed', e); }
+
+    // show success regardless (don't block on email)
+    document.
